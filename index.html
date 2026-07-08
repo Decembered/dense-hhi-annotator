@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dense HHI Interactive Annotator</title>
+  <link rel="stylesheet" href="styles.css?v=20260708-ui-exclude-v1">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Dense HHI Annotator</h1>
+      <p id="statusLine">Loading prototype sequences...</p>
+    </div>
+    <div class="top-actions">
+      <input id="searchInput" type="search" placeholder="Search sequence">
+      <select id="categoryFilter" aria-label="Category filter"></select>
+      <button id="importButton" class="ghost">Import</button>
+      <button id="copyButton" class="ghost">Copy JSONL</button>
+      <button id="exportButton">Export JSONL</button>
+      <input id="importFile" type="file" accept=".jsonl,.json" hidden>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="sequence-pane">
+      <div class="pane-title">Sequences</div>
+      <div id="sequenceStats" class="sequence-stats"></div>
+      <div id="sequenceList" class="sequence-list"></div>
+    </aside>
+
+    <section class="viewer-pane">
+      <div class="viewer-head">
+        <div>
+          <h2 id="sequenceTitle">No sequence selected</h2>
+          <div id="sequenceMeta" class="meta-line"></div>
+        </div>
+        <div class="player-actions">
+          <button id="prevFrameButton" class="icon-button" title="Previous frame">Prev</button>
+          <button id="playButton" class="icon-button" title="Play or pause">Play</button>
+          <button id="nextFrameButton" class="icon-button" title="Next frame">Next</button>
+          <select id="speedSelect" title="Playback speed">
+            <option value="0.25">0.25x</option>
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="stage-wrap">
+        <video id="meshVideo" muted playsinline preload="auto" hidden></video>
+        <img id="renderedClip" alt="Rendered human interaction clip" hidden>
+        <canvas id="skeletonCanvas" width="960" height="560"></canvas>
+        <div id="clipBadge" class="clip-badge" hidden>SMPL-X mesh video</div>
+        <div id="loadingOverlay" class="loading-overlay">Loading motion...</div>
+      </div>
+
+      <div class="frame-strip">
+        <span id="frameReadout">Frame 0</span>
+        <input id="frameSlider" type="range" min="0" max="0" value="0">
+        <span id="timeReadout">0.00s</span>
+      </div>
+
+      <div id="timeline" class="timeline" aria-label="Segmentation timeline"></div>
+
+      <div class="timeline-tools">
+        <button id="splitButton">Split at Current Frame</button>
+        <button id="deleteSegmentButton" class="ghost">Delete Segment</button>
+        <button id="mergePrevButton" class="ghost">Merge Previous</button>
+        <button id="mergeNextButton" class="ghost">Merge Next</button>
+        <button id="resetCandidateButton" class="ghost">Reset Candidate</button>
+      </div>
+
+      <div class="signal-panel">
+        <div class="pane-title">Motion Signals</div>
+        <canvas id="signalCanvas" width="960" height="120"></canvas>
+      </div>
+    </section>
+
+    <aside class="edit-pane">
+      <div class="pane-title">Segment Captions</div>
+      <div id="qualityBox" class="quality-box"></div>
+      <div id="segmentEditor" class="segment-editor"></div>
+      <div class="field-label">Original Inter-X Captions</div>
+      <div id="sourceCaptionPanel" class="source-caption-panel"></div>
+    </aside>
+  </main>
+
+  <script src="app.js?v=20260708-source-captions-v1"></script>
+</body>
+</html>
